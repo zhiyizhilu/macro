@@ -312,6 +312,10 @@
                 total += parseInt(item.value);
             });
 
+            // 计算百分制分数
+            const maxScore = 24; // 6 questions * max 4 points each
+            const percentage = (total / maxScore) * 100;
+
             // 生成结果
             const resultDiv = document.getElementById('result');
             const riskTitle = document.getElementById('riskTitle');
@@ -319,7 +323,7 @@
             const riskContent = document.getElementById('riskContent');
             let emoji, title, content, styleClass;
 
-            if(total <= 8) {
+            if(percentage <= 33) {
                 emoji = "🎉";
                 title = "【黄金矿工】抗风险王者";
                 content = `
@@ -331,7 +335,7 @@
                     </ul>
                 `;
                 styleClass = 'low-risk';
-            } else if(total <= 20) {
+            } else if(percentage <= 83) {
                 emoji = "⚠️";
                 title = "【青铜战士】隐形危机区";
                 content = `
@@ -361,7 +365,7 @@
             resultDiv.className = `${styleClass}`;
             resultDiv.style.display = 'block';
             riskTitle.innerHTML = `${emoji} ${title}`;
-            riskScore.textContent = `📊 危机指数：${total}分`;
+            riskScore.textContent = `📊 危机指数：${percentage.toFixed(0)}%`;
             riskScore.className = `risk-tag ${styleClass}`;
             riskContent.innerHTML = content;
 
@@ -381,7 +385,7 @@
         }
 
         function copyPageLink() {
-            const shareText = generateShareText(parseInt(document.getElementById('riskScore').textContent.split('：')[1].replace('分','')));
+            const shareText = generateShareText(parseInt(document.getElementById('riskScore').textContent.split('：')[1].replace('%','')));
             const tempInput = document.createElement('input');
             tempInput.value = shareText;
             document.body.appendChild(tempInput);
@@ -392,14 +396,14 @@
         }
 
         // 动态生成分享文案
-        function generateShareText(total) {
+        function generateShareText(percentage) {
             const levels = {
                 low: '🎉 我居然是程序员前10%的生存王者！',
                 medium: '⚠️ 我的职业安全期只剩12个月...',
                 high: '🚨 救命！我的程序员生涯进入高危红区。'
             };
-            const text = total <= 8 ? levels.low :
-                       total <= 20 ? levels.medium : levels.high;
+            const text = percentage <= 33 ? levels.low :
+                       percentage <= 83 ? levels.medium : levels.high;
             return `${text} 快来测测你的吧👉 ${window.location.href}`;
         }
 
