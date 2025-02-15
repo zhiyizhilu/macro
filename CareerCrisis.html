@@ -179,7 +179,7 @@
         .share-btn {
             padding: 12px 25px;
             border-radius: 25px;
-            display: flex;
+            /* display: flex; */
             align-items: center;
             gap: 8px;
             font-weight: 500;
@@ -276,17 +276,13 @@
                 </ul>
             </div>
             <div class="share-tips">
-                📸 截图发小红书获取自救指南｜💬 同类都在看的突围攻略
+                <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIyNjY5MDk2Nw==#wechat_redirect">💬 同类都在看的突围攻略</a>
             </div>
-            <div class="share-buttons">
-                <button class="share-btn wechat-share" onclick="shareToWechat()">
-                    <span>💬 分享到微信 (截图/朋友圈)</span>
-                </button>
-                <button class="share-btn copy-link" onclick="copyPageLink()">
-                    <span>🔗 复制链接</span>
+            <div class="share-buttons" >
+                <button class="share-btn wechat-share" onclick="copyPageLink()">
+                    <span>💬 让朋友也测一测吧 </span>
                 </button>
             </div>
-            <div class="screenshot-tip">📸 长按截图保存分享到朋友圈</div>
         </div>
     </div>
 
@@ -384,19 +380,15 @@
             document.getElementById('riskForm').style.display = 'none';
         }
 
-        // 新增分享功能
-        function shareToWechat() {
-            alert('📱 请使用微信「发现->扫一扫」扫描屏幕截图，或直接分享到朋友圈！');
-        }
-
         function copyPageLink() {
+            const shareText = generateShareText(parseInt(document.getElementById('riskScore').textContent.split('：')[1].replace('分','')));
             const tempInput = document.createElement('input');
-            tempInput.value = window.location.href;
+            tempInput.value = shareText;
             document.body.appendChild(tempInput);
             tempInput.select();
             document.execCommand('copy');
             document.body.removeChild(tempInput);
-            alert('✅ 链接已复制到剪贴板，快去分享给小伙伴吧！');
+            alert('✅ 已复制到剪贴板，快去分享给小伙伴吧！');
         }
 
         // 动态生成分享文案
@@ -404,11 +396,11 @@
             const levels = {
                 low: '🎉 我居然是程序员前10%的生存王者！',
                 medium: '⚠️ 我的职业安全期只剩12个月...',
-                high: '🚨 救命！我的程序员生涯进入高危红区'
+                high: '🚨 救命！我的程序员生涯进入高危红区。'
             };
             const text = total <= 8 ? levels.low :
                        total <= 20 ? levels.medium : levels.high;
-            return `${text} 👉 ${window.location.href}`;
+            return `${text} 快来测测你的吧👉 ${window.location.href}`;
         }
 
         // 随机生成建议
