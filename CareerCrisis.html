@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐉 程序员生存危机测评 | 全网刷屏版</title>
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin: 20px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.4;
+        }
+
+        .question-card {
+            margin: 25px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            border: 2px solid rgba(255,107,107,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.15);
+        }
+
+        legend {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin: 12px 0;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        label:hover {
+            border-color: var(--primary);
+        }
+
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            accent-color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            background: var(--gradient);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, opacity 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 30px 25px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-emoji {
+            font-size: 72px;
+            margin: 15px 0;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .risk-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .share-tips {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        /* 风险等级样式 */
+        .low-risk {
+            background: rgba(123,237,159,0.15);
+            border: 2px solid #7bed9f;
+        }
+        .medium-risk {
+            background: rgba(255,215,0,0.15);
+            border: 2px solid #ffd700;
+        }
+        .high-risk {
+            background: rgba(255,107,107,0.15);
+            border: 2px solid #ff6b6b;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .question-card {
+                padding: 15px;
+            }
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            padding: 12px 25px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: none;
+        }
+
+        .share-btn:hover {
+            transform: scale(0.95);
+        }
+
+        .wechat-share {
+            background: linear-gradient(135deg, #7CDE7C 0%, #4CAF50 100%);
+            color: white;
+        }
+
+        .copy-link {
+            background: linear-gradient(135deg, #6B8CFF 0%, #3F51B5 100%);
+            color: white;
+        }
+
+        .screenshot-tip {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧑💻 程序员生存危机测评<br><span style="font-size:0.7em;">六维扫描你的职场免疫力</span></h1>
+
+        <form id="riskForm">
+            <!-- 问题组 -->
+            <fieldset class="question-card">
+                <legend>🔞 年龄危机指数</legend>
+                <label><input type="radio" name="q1" value="4" required> 🧓 35岁+｜明显感觉体力下滑</label>
+                <label><input type="radio" name="q1" value="2"> 🧑💼 30-34岁｜能加班但不想卷</label>
+                <label><input type="radio" name="q1" value="0"> 👶 30岁以下｜熬夜战神体质</label>
+            </fieldset>
+
+            <fieldset class="question-card">
+                <legend>💣 技术过时指数</legend>
+                <label><input type="radio" name="q2" value="4" required> 🦖 还在维护祖传Java代码</label>
+                <label><input type="radio" name="q2" value="2"> ⚖️ 会微服务但没碰过云原生</label>
+                <label><input type="radio" name="q2" value="0"> 🚀 主导过AI/区块链落地项目</label>
+            </fieldset>
+
+            <fieldset class="question-card">
+                <legend>🏢 公司安全系数</legend>
+                <label><input type="radio" name="q3" value="4" required> 🏚️ 传统外包｜客户逐年减少</label>
+                <label><input type="radio" name="q3" value="2"> 🏭 中小厂｜业务稳定技术老旧</label>
+                <label><input type="radio" name="q3" value="0"> 🏙️ 大厂/独角兽｜有技术话语权</label>
+            </fieldset>
+
+            <fieldset class="question-card">
+                <legend>🚀 转型准备度</legend>
+                <label><input type="radio" name="q4" value="4" required> 🌀 纯技术路线｜没想过转型</label>
+                <label><input type="radio" name="q4" value="2"> 📚 想转管理｜但没有机会</label>
+                <label><input type="radio" name="q4" value="0"> 🎯 已是架构师/技术专家</label>
+            </fieldset>
+
+            <fieldset class="question-card">
+                <legend>🧠 认知开放度</legend>
+                <label><input type="radio" name="q5" value="4" required> 🤨 觉得新框架都是瞎折腾</label>
+                <label><input type="radio" name="q5" value="2"> 😶 公司让学什么就学什么</label>
+                <label><input type="radio" name="q5" value="0"> 🤩 每天刷Github趋势榜</label>
+            </fieldset>
+
+            <fieldset class="question-card">
+                <legend>🎓 学历护甲值</legend>
+                <label><input type="radio" name="q6" value="4" required> ❌ 非科班+大专以下</label>
+                <label><input type="radio" name="q6" value="2"> 📜 普通本科/培训班转型</label>
+                <label><input type="radio" name="q6" value="0"> 🏆 985/211科班+专业认证</label>
+            </fieldset>
+
+            <button type="button" onclick="calculateRisk()">🔍 立即生成生存报告</button>
+        </form>
+
+        <div id="result">
+            <div class="result-header">
+                <div class="result-emoji">🚨</div>
+                <h2 id="riskTitle">【高危红区】生存警报</h2>
+                <div class="risk-tag high-risk" id="riskScore">💣 危机指数：28分</div>
+            </div>
+            <div id="riskContent">
+                <p>⚠️ 你已进入职业危险区！</p>
+                <ul>
+                    <li>⏳ 安全边际：<6个月</li>
+                    <li>🔧 最大短板：技术陈旧+行业局限</li>
+                    <li>🚀 推荐方案：AI工程化转型/副业突围</li>
+                </ul>
+            </div>
+            <div class="share-tips">
+                📸 截图发小红书获取自救指南｜💬 同类都在看的突围攻略
+            </div>
+            <div class="share-buttons">
+                <button class="share-btn wechat-share" onclick="shareToWechat()">
+                    <span>💬 分享到微信 (截图/朋友圈)</span>
+                </button>
+                <button class="share-btn copy-link" onclick="copyPageLink()">
+                    <span>🔗 复制链接</span>
+                </button>
+            </div>
+            <div class="screenshot-tip">📸 长按截图保存分享到朋友圈</div>
+        </div>
+    </div>
+
+    <script>
+        function calculateRisk() {
+            // 验证所有必填项
+            const requiredQuestions = document.querySelectorAll('[required]');
+            let allAnswered = true;
+
+            requiredQuestions.forEach(q => {
+                const groupName = q.name;
+                const checked = document.querySelector(`input[name="${groupName}"]:checked`);
+                if (!checked) {
+                    allAnswered = false;
+                    q.closest('.question-card').style.borderColor = '#ff6b6b';
+                }
+            });
+
+            if (!allAnswered) {
+                alert('⚠️ 请先完成所有题目！');
+                return;
+            }
+
+            // 计算总分
+            let total = 0;
+            document.querySelectorAll('input[type="radio"]:checked').forEach(item => {
+                total += parseInt(item.value);
+            });
+
+            // 生成结果
+            const resultDiv = document.getElementById('result');
+            const riskTitle = document.getElementById('riskTitle');
+            const riskScore = document.getElementById('riskScore');
+            const riskContent = document.getElementById('riskContent');
+            let emoji, title, content, styleClass;
+
+            if(total <= 8) {
+                emoji = "🎉";
+                title = "【黄金矿工】抗风险王者";
+                content = `
+                    <p>✨ 你是程序员赛道前10%的优质股！</p>
+                    <ul>
+                        <li>✅ 抗裁员指数：🌟🌟🌟🌟🌟</li>
+                        <li>🔥 核心优势：${getRandomAdvantage()}</li>
+                        <li>📌 建议：保持技术领导力，关注行业生态</li>
+                    </ul>
+                `;
+                styleClass = 'low-risk';
+            } else if(total <= 20) {
+                emoji = "⚠️";
+                title = "【青铜战士】隐形危机区";
+                content = `
+                    <p>💡 你的职业护城河需要加固！</p>
+                    <ul>
+                        <li>⏳ 安全窗口：12-18个月</li>
+                        <li>🔧 最大短板：${getMaxWeakness()}</li>
+                        <li>📌 急救方案：立即启动「${getRandomPlan()}」计划</li>
+                    </ul>
+                `;
+                styleClass = 'medium-risk';
+            } else {
+                emoji = "🚨";
+                title = "【红码战士】生存危机警报";
+                content = `
+                    <p>🔥 需要立即采取行动！</p>
+                    <ul>
+                        <li>💣 高危因素：${getDangerFactor()}</li>
+                        <li>🚀 推荐路线：${getChangePath()}</li>
+                        <li>📌 紧急预案：副业+系统性补课</li>
+                    </ul>
+                `;
+                styleClass = 'high-risk';
+            }
+
+            // 更新显示
+            resultDiv.className = `${styleClass}`;
+            resultDiv.style.display = 'block';
+            riskTitle.innerHTML = `${emoji} ${title}`;
+            riskScore.textContent = `📊 危机指数：${total}分`;
+            riskScore.className = `risk-tag ${styleClass}`;
+            riskContent.innerHTML = content;
+
+            // 滚动到结果
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+
+            // 移除错误提示
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.style.borderColor = 'rgba(255,107,107,0.1)';
+            });
+
+            // 显示分享按钮
+            document.querySelector('.share-buttons').style.display = 'flex';
+
+            // Hide the form after showing result
+            document.getElementById('riskForm').style.display = 'none';
+        }
+
+        // 新增分享功能
+        function shareToWechat() {
+            alert('📱 请使用微信「发现->扫一扫」扫描屏幕截图，或直接分享到朋友圈！');
+        }
+
+        function copyPageLink() {
+            const tempInput = document.createElement('input');
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('✅ 链接已复制到剪贴板，快去分享给小伙伴吧！');
+        }
+
+        // 动态生成分享文案
+        function generateShareText(total) {
+            const levels = {
+                low: '🎉 我居然是程序员前10%的生存王者！',
+                medium: '⚠️ 我的职业安全期只剩12个月...',
+                high: '🚨 救命！我的程序员生涯进入高危红区'
+            };
+            const text = total <= 8 ? levels.low :
+                       total <= 20 ? levels.medium : levels.high;
+            return `${text} 👉 ${window.location.href}`;
+        }
+
+        // 随机生成建议
+        function getRandomAdvantage() {
+            const advantages = ['技术前瞻性', '行业壁垒', '学历背书', '管理潜力'];
+            return advantages[Math.floor(Math.random()*advantages.length)] + ' 🛡️';
+        }
+
+        function getMaxWeakness() {
+            const weaknesses = ['技术陈旧', '行业局限', '学历短板', '体力下滑'];
+            return weaknesses[Math.floor(Math.random()*weaknesses.length)] + ' ⚠️';
+        }
+
+        function getRandomPlan() {
+            const plans = ['3+1突围', '云原生跃迁', 'AI转型加速', '副业破局'];
+            return plans[Math.floor(Math.random()*plans.length)];
+        }
+
+        function getDangerFactor() {
+            const dangers = ['技术代差', '年龄危机', '行业萎缩', '认知固化'];
+            return dangers[Math.floor(Math.random()*dangers.length)] + ' 💥';
+        }
+
+        function getChangePath() {
+            const paths = ['AI工程化', '技术管理', '出海就业', '数字游民'];
+            return paths[Math.floor(Math.random()*paths.length)] + ' 🚀';
+        }
+    </script>
+</body>
+</html>
